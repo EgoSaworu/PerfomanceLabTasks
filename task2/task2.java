@@ -4,22 +4,19 @@ import java.util.Scanner;
 
 public class task2 {
     public static void main(String[] args) {
-        Scanner inputScanner = new Scanner(System.in);
-
-        System.out.println("Введите путь к файлу с параметрами окружности:");
-        String circleFilePath = inputScanner.nextLine();
-
-        System.out.println("Введите путь к файлу с координатами точек:");
-        String pointsFilePath = inputScanner.nextLine();
+        if (args.length < 2) {
+            System.out.println("Необходимо указать два аргумента: путь к файлу окружности и путь к файлу точек");
+            return;
+        }
 
         try {
-            Scanner circleScanner = new Scanner(new File(circleFilePath));
+            Scanner circleScanner = new Scanner(new File(args[0]));
             double centerX = circleScanner.nextDouble();
             double centerY = circleScanner.nextDouble();
             double radius = circleScanner.nextDouble();
             circleScanner.close();
 
-            Scanner pointsScanner = new Scanner(new File(pointsFilePath));
+            Scanner pointsScanner = new Scanner(new File(args[1]));
             while (pointsScanner.hasNextDouble()) {
                 double pointX = pointsScanner.nextDouble();
                 double pointY = pointsScanner.nextDouble();
@@ -41,9 +38,7 @@ public class task2 {
             pointsScanner.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("Ошибка: файл не найден");
-        } finally {
-            inputScanner.close();
+            System.out.println("Ошибка: файл не найден - " + e.getMessage());
         }
     }
 }
