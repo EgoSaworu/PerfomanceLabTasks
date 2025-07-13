@@ -1,33 +1,40 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class task1 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        int m = scanner.nextInt();
-
-        List<Integer> circularArray = new ArrayList<>();
-        for (int i = 1; i <= n; i++) {
-            circularArray.add(i);
+        if (args.length < 2) {
+            System.out.println("Необходимо указать два аргумента: n и m");
+            return;
         }
 
-        List<Integer> path = new ArrayList<>();
-        int index = 0;
+        try {
+            int n = Integer.parseInt(args[0]);
+            int m = Integer.parseInt(args[1]);
 
-        while (true) {
-            path.add(circularArray.get(index));
-
-            index = (index + m - 1) % n;
-
-            if (index == 0) {
-                break;
+            List<Integer> circularArray = new ArrayList<>();
+            for (int i = 1; i <= n; i++) {
+                circularArray.add(i);
             }
-        }
 
-        for (int num : path) {
-            System.out.print(num);
+            List<Integer> path = new ArrayList<>();
+            int index = 0;
+
+            while (true) {
+                path.add(circularArray.get(index));
+                index = (index + m - 1) % n;
+
+                if (index == 0) {
+                    break;
+                }
+            }
+
+            for (int num : path) {
+                System.out.print(num);
+            }
+
+        } catch (NumberFormatException e) {
+            System.out.println("Аргументы должны быть целыми числами");
         }
     }
 }
