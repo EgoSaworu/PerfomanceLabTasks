@@ -6,24 +6,17 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
 
 public class task3 {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        if (args.length < 3) {
+            System.out.println("Необходимо указать три аргумента: values.json tests.json report.json");
+            return;
+        }
 
         try {
-            System.out.println("Введите путь к файлу values.json:");
-            String valuesPath = scanner.nextLine();
-
-            System.out.println("Введите путь к файлу tests.json:");
-            String testsPath = scanner.nextLine();
-
-            System.out.println("Введите путь для сохранения report.json:");
-            String reportPath = scanner.nextLine();
-
-            JSONObject values = new JSONObject(new String(Files.readAllBytes(Paths.get(valuesPath))));
-            JSONObject tests = new JSONObject(new String(Files.readAllBytes(Paths.get(testsPath))));
+            JSONObject values = new JSONObject(new String(Files.readAllBytes(Paths.get(args[0]))));
+            JSONObject tests = new JSONObject(new String(Files.readAllBytes(Paths.get(args[1]))));
 
             JSONArray valuesArray = values.getJSONArray("values");
             Map<Integer, String> valueMap = new HashMap<>();
@@ -33,14 +26,12 @@ public class task3 {
             }
 
             processNode(tests, valueMap);
-            Files.write(Paths.get(reportPath), tests.toString(2).getBytes());
+            Files.write(Paths.get(args[2]), tests.toString(2).getBytes());
 
-            System.out.println("Отчет успешно сохранен в " + reportPath);
+            System.out.println("Отчет успешно сохранен в " + args[2]);
 
         } catch (IOException e) {
             System.err.println("Ошибка: " + e.getMessage());
-        } finally {
-            scanner.close();
         }
     }
 
